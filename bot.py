@@ -4,6 +4,7 @@ import discord
 from discord.ext import commands
 import random
 import json
+import picgen
 
 #READ JSON FILE TO LOAD SAVED DATA, ELSE, START NEW
 user_data_json_file = "vocamon.json"
@@ -179,7 +180,7 @@ async def _stats(ctx):
     else:
         await bot.say("{0}, you don't have a pet. Hatch an egg!".format(mother.mention))
     
-@pet.command(name='stats', pass_context=True)
+@pet.command(name='stats2', pass_context=True)
 async def _stats2(ctx):
     """Check your pets stats."""
     mother = ctx.message.author
