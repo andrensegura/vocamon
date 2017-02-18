@@ -179,6 +179,18 @@ async def _stats(ctx):
     else:
         await bot.say("{0}, you don't have a pet. Hatch an egg!".format(mother.mention))
     
+@pet.command(name='stats', pass_context=True)
+async def _stats2(ctx):
+    """Check your pets stats."""
+    mother = ctx.message.author
+    if has_mon(mother.name):
+        pet = user_data[mother.name]['mon']
+        #picgen should be updated to create unique filenames and return the name
+        picgen.generate_mon_badge(pet)
+        await bot.send_file(ctx.message.channel, 'out.png')
+    else:
+        await bot.say("{0}, you don't have a pet. Hatch an egg!".format(mother.mention))
+
 
 #commands to add: feed, love, attack
 
