@@ -41,6 +41,13 @@ def save_data():
     with open(user_data_json_file, 'w') as outfile:
         json.dump(user_data, outfile)
         
+#RESTART BOT
+def restart_bot():
+    import os, sys
+    python = sys.executable
+    os.execl("bot.py", python)
+
+
 #takes a string as input and creates save data for it. if the user existed, it returns True, else, false.
 def mother_exists(player):
     if player not in user_data:
@@ -76,6 +83,25 @@ def has_food(player):
 ################
 # COMMANDS
 ################
+
+#ADMIN COMMANDS
+@bot.group(pass_context=True)
+async def admin(ctx):
+    """Perform administrative actions."""
+    if ctx.invoked_subcommand is None:
+        await bot.say("See '.help admin'")
+
+@admin.command(name='restart', pass_context=True)
+async def _restart(ctx):
+    """Restart the bot."""
+    user = ctx.message.author
+    if str(user) == "faroeson#2506":
+        await bot.say("Bot restarting...")
+        save_data()
+        restart_bot()
+    else:
+        await bot.say("Author is {0}".format(user))
+
 
 @bot.command(pass_context=True)
 async def fuck(ctx):
@@ -149,7 +175,8 @@ async def _hatch(ctx):
     mother = ctx.message.author
     if has_egg(mother.name):
         if not has_mon(mother.name):
-            user_data[mother.name]['mon']['type'] = user_data[mother.name]['egg']['type']
+            pet = user_data[mother.name]['mon']
+            pet['type'], pet['name'] = user_data[mother.name]['egg']['type']
             user_data[mother.name]['inventory']['egg'] = 0
             await bot.say('Congratulations! Your egg hatched into a beautiful baby {0}!'.format(user_data[mother.name]['mon']['type']))
             save_data()
