@@ -2,7 +2,7 @@
 
 import discord
 from discord.ext import commands
-import random
+import os
 import json
 import picgen
 
@@ -43,10 +43,9 @@ def save_data():
         
 #RESTART BOT
 def restart_bot():
-    import os, sys
+    import sys
     python = sys.executable
     os.execl("bot.py", python)
-
 
 #takes a string as input and creates save data for it. if the user existed, it returns True, else, false.
 def mother_exists(player):
@@ -100,8 +99,25 @@ async def _restart(ctx):
         save_data()
         restart_bot()
     else:
-        await bot.say("Author is {0}".format(user))
+        await bot.say("{0} is not an administrator".format(user))
 
+@admin.command(name='loadavg', pass_context=True)
+async def _loadavg(ctx):
+    """Check the server load."""
+    user = ctx.message.author
+    if str(user) == "faroeson#2506":
+        await bot.say("`{0}`".format(os.getloadavg()))
+
+@admin.command(name='shutdown', pass_context=True)
+async def _shutdown(ctx):
+    """Shut down the bot."""
+    user = ctx.message.author
+    if str(user) == "faroeson#2506":
+        await bot.say("Goodbye!\nVocamon has shut down.")
+        from sys import exit
+        exit(0)
+
+#################
 
 @bot.command(pass_context=True)
 async def fuck(ctx):
