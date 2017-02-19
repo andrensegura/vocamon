@@ -45,8 +45,9 @@ def save_data():
 def mother_exists(player):
     if player not in user_data:
         user_data[player] = {}
-        user_data[player]['egg'] = {'has': 0, 'type': 0}
+        user_data[player]['egg'] = {'type': 0}
         user_data[player]['mon'] = {'name': 0, 'type': 0, 'hunger': 0, 'happy': 0}
+        user_data[player]['inventory'] = {'food': 5, 'egg': 0}
         save_data()
         return False
     return True
@@ -54,7 +55,7 @@ def mother_exists(player):
 #takes a player name as a string and checks if the user has an egg.
 def has_egg(player):
     if mother_exists(player):
-        if user_data[player]['egg']['has'] != 0:
+        if user_data[player]['inventory']['egg'] != 0:
             return True
     return False
 
@@ -62,6 +63,13 @@ def has_egg(player):
 def has_mon(player):
     if mother_exists(player):
         if user_data[player]['mon']['type'] != 0:
+            return True
+    return False
+
+#takes a player name as a string and checks if the user has any food.
+def has_food(player):
+    if mother_exists(player):
+        if user_data[player]['inventory']['food'] != 0:
             return True
     return False
     
@@ -88,11 +96,12 @@ async def fuck(ctx):
     #mother_exists only being called to create the mother entry in this case.
     mother_exists(mother.name)
     
-    if user_data[mother.name]['egg']['has'] == 1:
+    if has_egg(mother.name):
         await bot.say('{0}, you already have an egg.'.format(mother.mention))
+        await bot.say('You already {0} eggs.'.format(user_data[mother.name]['inventory']['egg']))
         return
     else: 
-        user_data[mother.name]['egg']['has'] = 1
+        user_data[mother.name]['inventory']['egg'] = 1
         user_data[mother.name]['egg']['type'] = egg_type
     
         await bot.say('{0} tripped and accidentally put their dick in {1}. Whoops! {0} got an egg!'.format(mother.name, dad))
@@ -112,7 +121,7 @@ async def egg(ctx):
             victim = ctx.message.mentions[0]
             perp = ctx.message.author
             if has_egg(perp.name):
-                user_data[perp.name]['egg']['has'] = 0
+                user_data[perp.name]['inventory']['egg'] = 0
                 await bot.say('{0} threw their egg at {1}! Talk about hazukashi. LOL'.format(perp.mention, victim.mention))
                 await bot.send_file(ctx.message.channel, 'smug.png')
                 save_data()
@@ -126,7 +135,7 @@ async def _eat(ctx):
     """Eat your egg, you monster."""
     mother = ctx.message.author
     if has_egg(mother.name):
-        user_data[mother.name]['egg']['has'] = 0
+        user_data[mother.name]['inventory']['egg'] = 0
         await bot.say("{0}, you've eaten your egg :(".format(mother.mention))
         save_data()
     else:
@@ -141,7 +150,7 @@ async def _hatch(ctx):
     if has_egg(mother.name):
         if not has_mon(mother.name):
             user_data[mother.name]['mon']['type'] = user_data[mother.name]['egg']['type']
-            user_data[mother.name]['egg']['has'] = 0
+            user_data[mother.name]['inventory']['egg'] = 0
             await bot.say('Congratulations! Your egg hatched into a beautiful baby {0}!'.format(user_data[mother.name]['mon']['type']))
             save_data()
         else:
@@ -192,6 +201,22 @@ async def _stats2(ctx):
     else:
         await bot.say("{0}, you don't have a pet. Hatch an egg!".format(mother.mention))
 
+@pet.command(name='feed', pass_context=True)
+async def _feed(ctx):
+    """Feed your pet if you have food."""
+    mother = ctx.message.author
+    if has_mon(mother.name):
+        if has_food(mother.name):
+            user_data[mother.name]['inventory']['food'] -= 1
+            pet = user_data[mother.name]['mon']
+            pet['hunger'] += 1
+            await bot.say("{0} has been fed!".format(pet['name']))
+
+            save_data()
+        else:
+            await bot.say("{0}, you don't have any food!".format(mother.mention))
+    else:
+        await bot.say("{0}, you don't have a pet. Hatch an egg!".format(mother.mention))
 
 #commands to add: feed, love, attack
 
