@@ -1,1 +1,1 @@
-{"faroeson": {"mon": {"hunger": 0, "name": "Fido", "type": "First Mate", "happy": 0}, "egg": {"has": 0, "type": "ihave3chihayasmon"}}, "Chel": {"mon": {"hunger": 0, "name": 0, "type": 0, "happy": 0}, "egg": {"has": 1, "type": "Captain"}}, "ihave3chihayas": {"egg": {"has": 0, "type": "Vocamonmon"}, "mon": {"name": "assbread", "type": "Vocamonmon", "hunger": 0, "happy": 0}}}
+{"faroeson": {"egg": {"type": "Vocamonmon"}, "mon": {"name": 0, "type": "Vocamonmon", "hunger": 2, "happy": 0}, "inventory": {"food": 3, "egg": 0}}}
