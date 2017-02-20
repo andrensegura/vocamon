@@ -2,20 +2,9 @@
 
 import discord
 from discord.ext import commands
-import os
 import json
 import picgen
 import threading
-
-#READ JSON FILE TO LOAD SAVED DATA, ELSE, START NEW
-user_data_json_file = "vocamon.json"
-try:
-    with open(user_data_json_file) as json_file:
-        user_data = json.load(json_file)
-    print('Save data loaded.')
-except :
-    print('Unable to read save data or none supplied.')
-    user_data = {}
 
 
 
@@ -50,12 +39,6 @@ def update_timer():
     for player_name in user_data:
         user_data[player_name]['inventory']['stars'] += 10
         save_data()
-
-#RESTART BOT
-def restart_bot():
-    import sys
-    python = sys.executable
-    os.execl("bot.py", python)
 
 #takes a string as input and creates save data for it. if the user existed, it returns True, else, false.
 def mother_exists(player):
@@ -92,40 +75,8 @@ def has_food(player):
 # COMMANDS
 ################
 
-#ADMIN COMMANDS
-@bot.group(pass_context=True)
-async def admin(ctx):
-    """Perform administrative actions."""
-    if ctx.invoked_subcommand is None:
-        await bot.say("See '.help admin'")
-
-@admin.command(name='restart', pass_context=True)
-async def _restart(ctx):
-    """Restart the bot."""
-    user = ctx.message.author
-    if str(user) == "faroeson#2506":
-        await bot.say("Bot restarting...")
-        save_data()
-        os.fsync()
-        restart_bot()
-    else:
-        await bot.say("{0} is not an administrator".format(user))
-
-@admin.command(name='loadavg', pass_context=True)
-async def _loadavg(ctx):
-    """Check the server load."""
-    user = ctx.message.author
-    if str(user) == "faroeson#2506":
-        await bot.say("`{0}`".format(os.getloadavg()))
-
-@admin.command(name='shutdown', pass_context=True)
-async def _shutdown(ctx):
-    """Shut down the bot."""
-    user = ctx.message.author
-    if str(user) == "faroeson#2506":
-        await bot.say("Goodbye!\nVocamon has shut down.")
-        from sys import exit
-        exit(0)
+#Load extensions
+startup_extensions = ["admin"]
 
 #################
 
@@ -267,4 +218,23 @@ async def _feed(ctx):
 #commands to add: feed, love, attack
 
 
-bot.run('MjU1NjcxMjkwODc3MzEzMDI1.CyhCkQ.NVxJ5wk2xQAZtJ_xvp4mAvfsJus')
+if __name__ == "__main__":
+    #READ JSON FILE TO LOAD SAVED DATA, ELSE, START NEW
+    user_data_json_file = "vocamon.json"
+    try:
+        with open(user_data_json_file) as json_file:
+            user_data = json.load(json_file)
+        print('Save data loaded.')
+    except :
+        print('Unable to read save data or none supplied.')
+        user_data = {}
+
+    #LOAD EXTENSIONS
+    for extension in startup_extensions:
+        try:
+            bot.load_extension(extension)
+        except Exception as e:
+            exc = '{}: {}'.format(type(e).__name__, e)
+            print('Failed to load extension {}\n{}'.format(extension, exc))
+
+    bot.run('MjU1NjcxMjkwODc3MzEzMDI1.CyhCkQ.NVxJ5wk2xQAZtJ_xvp4mAvfsJus')
