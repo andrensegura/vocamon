@@ -11,6 +11,7 @@ Vocamon is a Discord bot that provides users with a virtual pet.
 * move text output into own module.
 * make `.egg throw` a subcommand, instead of as an argument to `.egg`
 * keep track of time and lower hunger/happy as necessary
+* add inventory command(s)
 * ~~create currency~~ done
 * ~~keep track of time and hand out currency~~ done
 * create shop
