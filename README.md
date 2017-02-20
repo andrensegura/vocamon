@@ -6,7 +6,10 @@ Vocamon is a Discord bot that provides users with a virtual pet.
 
 * ~~flush stdout before restart~~ done
 * print a ready message after restart
-* move command groups into separate files?
+* move command groups into separate files
+ * pet
+ * egg
+ * ~~admin~~ done
 * stats picture needs to be prettified
 * move text output into own module.
 * make `.egg throw` a subcommand, instead of as an argument to `.egg`
