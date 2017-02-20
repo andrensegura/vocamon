@@ -5,6 +5,7 @@ from discord.ext import commands
 import os
 import json
 import picgen
+import threading
 
 #READ JSON FILE TO LOAD SAVED DATA, ELSE, START NEW
 user_data_json_file = "vocamon.json"
@@ -31,6 +32,7 @@ async def on_ready():
     print('Logged in as')
     print(bot.user.name)
     print(bot.user.id)
+    update_timer()
     print('------')
 
 ################
@@ -41,6 +43,14 @@ def save_data():
     with open(user_data_json_file, 'w') as outfile:
         json.dump(user_data, outfile)
         
+
+def update_timer():
+    threading.Timer(10.0,update_timer).start()
+
+    for player_name in user_data:
+        user_data[player_name]['inventory']['stars'] += 10
+        save_data()
+
 #RESTART BOT
 def restart_bot():
     import sys
@@ -53,8 +63,7 @@ def mother_exists(player):
         user_data[player] = {}
         user_data[player]['egg'] = {'type': 0}
         user_data[player]['mon'] = {'name': 0, 'type': 0, 'hunger': 0, 'happy': 0}
-        user_data[player]['inventory'] = {'food': 5, 'egg': 0}
-        save_data()
+        user_data[player]['inventory'] = {'food': 5, 'egg': 0, 'stars': 0}
         return False
     return True
 
@@ -147,7 +156,6 @@ async def fuck(ctx):
         user_data[mother.name]['egg']['type'] = egg_type
     
         await bot.say('{0} tripped and accidentally put their dick in {1}. Whoops! {0} got an egg!'.format(mother.name, dad))
-        save_data()
 
 ###########
 # EGG specific commands
@@ -166,7 +174,6 @@ async def egg(ctx):
                 user_data[perp.name]['inventory']['egg'] = 0
                 await bot.say('{0} threw their egg at {1}! Talk about hazukashi. LOL'.format(perp.mention, victim.mention))
                 await bot.send_file(ctx.message.channel, 'smug.png')
-                save_data()
                 return
             await bot.say("Ghost eggs don't work. Go fuck somebody.")
         except:
@@ -179,7 +186,6 @@ async def _eat(ctx):
     if has_egg(mother.name):
         user_data[mother.name]['inventory']['egg'] = 0
         await bot.say("{0}, you've eaten your egg :(".format(mother.mention))
-        save_data()
     else:
         await bot.say('{0}, you have no eggs. Go fuck somebody.'.format(mother.mention))
     
@@ -195,7 +201,6 @@ async def _hatch(ctx):
             pet['type'], pet['name'] = user_data[mother.name]['egg']['type']
             user_data[mother.name]['inventory']['egg'] = 0
             await bot.say('Congratulations! Your egg hatched into a beautiful baby {0}!'.format(user_data[mother.name]['mon']['type']))
-            save_data()
         else:
             await bot.say('{0}, you already have a pet.'.format(mother.mention))
     else:
@@ -218,7 +223,6 @@ async def _name(ctx, new_name: str):
     if has_mon(mother.name):
         user_data[mother.name]['mon']['name'] = new_name
         await bot.say("Congratulations, {0}, your mon has been named {1}!".format(mother.mention, new_name))
-        save_data()
     else:
         await bot.say("{0}, you have no mon. You need to hatch an egg first.".format(mother.name))
         
@@ -254,8 +258,6 @@ async def _feed(ctx):
             pet = user_data[mother.name]['mon']
             pet['hunger'] += 1
             await bot.say("{0} has been fed!".format(pet['name']))
-
-            save_data()
         else:
             await bot.say("{0}, you don't have any food!".format(mother.mention))
     else:
