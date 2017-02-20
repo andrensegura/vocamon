@@ -45,7 +45,7 @@ def save_data():
         
 
 def update_timer():
-    threading.Timer(10.0,update_timer).start()
+    threading.Timer(180.0,update_timer).start()
 
     for player_name in user_data:
         user_data[player_name]['inventory']['stars'] += 10
