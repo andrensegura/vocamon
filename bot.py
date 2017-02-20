@@ -106,6 +106,7 @@ async def _restart(ctx):
     if str(user) == "faroeson#2506":
         await bot.say("Bot restarting...")
         save_data()
+        os.fsync()
         restart_bot()
     else:
         await bot.say("{0} is not an administrator".format(user))
