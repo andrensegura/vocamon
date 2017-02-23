@@ -4,6 +4,10 @@ import os
 import discord
 from discord.ext import commands
 
+def save_data():
+    with open(user_data_json_file, 'w') as outfile:
+        json.dump(user_data, outfile)
+
 #ADMIN COMMANDS
 class Admin():
     def __init__(self, bot):
