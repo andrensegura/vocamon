@@ -152,7 +152,7 @@ async def _hatch(ctx):
     if has_egg(mother.name):
         if not has_mon(mother.name):
             pet = user_data[mother.name]['mon']
-            pet['type'], pet['name'] = user_data[mother.name]['egg']['type']
+            pet['type'] = pet['name'] = user_data[mother.name]['egg']['type']
             user_data[mother.name]['inventory']['egg'] = 0
             await bot.say('Congratulations! Your egg hatched into a beautiful baby {0}!'.format(user_data[mother.name]['mon']['type']))
         else:
