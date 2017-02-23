@@ -29,12 +29,14 @@ def generate_mon_badge(owner, mon):
     draw.text((170, 132),"[{0}]".format(hunger),(0,255,0),font=font)
     
     #avatar image, currently 32x32
-    face = Image.open("res/faro.png")
+    face = Image.open("res/" + mon['type'] + ".png")
     #scaled x4 (resize can take a second argument for AA)
     face = face.resize((128,128))
     #paste face onto background (x,y)
     base.paste(face, (21,21))
     #save picture
-    base.save("out/" + owner + ".png")
-    #show picture for testing purposes.
-    #base.show()
+    picname = "out/" + owner+ ".png"
+    base.save(picname)
+
+    #return name
+    return picname
