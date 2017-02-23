@@ -4,8 +4,7 @@ Vocamon is a Discord bot that provides users with a virtual pet.
 
 #To-Do:
 
-- [x] flush stdout before restart
-- [x] stats pics should have unique names
+- [ ] figure out a new way to save data so that modules can make changes
 - [ ] print a ready message after restart
 - [ ] move command groups into separate files
  - [ ] pet
@@ -17,8 +16,10 @@ Vocamon is a Discord bot that provides users with a virtual pet.
 - [ ] make `.egg throw` a subcommand, instead of as an argument to `.egg`
 - [ ] keep track of time and lower hunger/happy as necessary
 - [ ] add inventory command(s)
-- [x] create currency
-- [x] keep track of time and hand out currency
 - [ ] create shop
 - [ ] select mon based on mother/father server roles.
+- [x] flush stdout before restart
+- [x] stats pics should have unique names
+- [x] create currency
+- [x] keep track of time and hand out currency
 - [ ] check yourself before you wreck yourself
