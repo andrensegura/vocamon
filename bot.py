@@ -12,6 +12,8 @@ import threading
 # READY UP
 ###############        
         
+user_data_json_file = "vocamon.json"
+
 description = '''Vocamon is a game you can play from within the Discord client.
 It provides users a virtual pet and allows for some interaction like battling/trading with other users.'''
 bot = commands.Bot(command_prefix='.', description=description)
@@ -221,7 +223,6 @@ async def _feed(ctx):
 
 if __name__ == "__main__":
     #READ JSON FILE TO LOAD SAVED DATA, ELSE, START NEW
-    user_data_json_file = "vocamon.json"
     try:
         with open(user_data_json_file) as json_file:
             user_data = json.load(json_file)

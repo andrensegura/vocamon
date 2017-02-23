@@ -1,12 +1,8 @@
 #!/home/andre/bin/python3
 
-import os
+import os, sys
 import discord
 from discord.ext import commands
-
-def save_data():
-    with open(user_data_json_file, 'w') as outfile:
-        json.dump(user_data, outfile)
 
 #ADMIN COMMANDS
 class Admin():
@@ -25,7 +21,7 @@ class Admin():
         user = ctx.message.author
         if str(user) == "faroeson#2506":
             await self.bot.say("Bot restarting...")
-            save_data()
+            #save_data()
 
             import sys
             python = sys.executable
@@ -46,9 +42,10 @@ class Admin():
         """Shut down the bot."""
         user = ctx.message.author
         if str(user) == "faroeson#2506":
+            #save_data()
             await self.bot.say("Goodbye!\nVocamon has shut down.")
             from sys import exit
-            exit(0)
+            sys.exit(0)
 
 def setup(bot):
     bot.add_cog(Admin(bot))
