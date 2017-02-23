@@ -196,8 +196,7 @@ async def _stats2(ctx):
     mother = ctx.message.author
     if has_mon(mother.name):
         pet = user_data[mother.name]['mon']
-        #picgen should be updated to create unique filenames and return the name
-        picgen.generate_mon_badge(pet)
+        picgen.generate_mon_badge(mother.name, pet)
         await bot.send_file(ctx.message.channel, 'out.png')
     else:
         await bot.say("{0}, you don't have a pet. Hatch an egg!".format(mother.mention))
@@ -217,7 +216,7 @@ async def _feed(ctx):
     else:
         await bot.say("{0}, you don't have a pet. Hatch an egg!".format(mother.mention))
 
-#commands to add: feed, love, attack
+#commands to add: love, attack
 
 
 if __name__ == "__main__":
@@ -234,7 +233,8 @@ if __name__ == "__main__":
     #LOAD EXTENSIONS
     for extension in startup_extensions:
         try:
-            bot.load_extension(extensions_dir + extension)
+            extension = extensions_dir + "." + extension
+            bot.load_extension(extension)
         except Exception as e:
             exc = '{}: {}'.format(type(e).__name__, e)
             print('Failed to load extension {}\n{}'.format(extension, exc))
