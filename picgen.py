@@ -5,7 +5,7 @@ from PIL import ImageDraw
 
 # mon should be a dictionary containing the
 # name, hunger, and happiness.
-def generate_mon_badge(mon):
+def generate_mon_badge(owner, mon):
     name = mon["name"]
     hunger = ("#" * int(mon["hunger"])).ljust(12)
     happy = ("#" * int(mon["happy"])).ljust(12)
@@ -35,6 +35,6 @@ def generate_mon_badge(mon):
     #paste face onto background (x,y)
     base.paste(face, (21,21))
     #save picture
-    base.save("out.png")
+    base.save("out/" + owner + ".png")
     #show picture for testing purposes.
     #base.show()
