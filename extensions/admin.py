@@ -25,7 +25,7 @@ class Admin():
 
             import sys
             python = sys.executable
-            os.fsync()
+            sys.stdout.flush()
             os.execl("bot.py", python)
         else:
             await self.bot.say("{0} is not an administrator".format(user))
