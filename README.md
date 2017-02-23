@@ -17,7 +17,7 @@ Vocamon is a Discord bot that provides users with a virtual pet.
 - [ ] keep track of time and lower hunger/happy as necessary
 - [ ] add inventory command(s)
 - [ ] create shop
-- [ ] select mon based on mother/father server roles.
+- [x] select mon based on mother/father server roles.
 - [x] flush stdout before restart
 - [x] stats pics should have unique names
 - [x] create currency
