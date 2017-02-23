@@ -5,6 +5,7 @@ from discord.ext import commands
 import json
 import picgen
 import threading
+import random
 
 
 
@@ -13,6 +14,7 @@ import threading
 ###############        
         
 user_data_json_file = "vocamon.json"
+all_egg_types = ['gumi','ia','luka','miku']
 
 description = '''Vocamon is a game you can play from within the Discord client.
 It provides users a virtual pet and allows for some interaction like battling/trading with other users.'''
@@ -92,13 +94,19 @@ async def fuck(ctx):
     Mention another user to get started ( ͡° ͜ʖ ͡°)"""
 
     try:
-        dad = ctx.message.mentions[0].name
+        dad = ctx.message.mentions[0]
     except:
         await bot.say("Whom did you want to fuck? (see '.help fuck')")
         return
         
     mother = ctx.message.author
-    egg_type = dad + "mon" #make this a weighted choice, later
+
+    #determine egg type
+    parent_roles = []
+    for role in (mother.roles + dad.roles):
+        parent_roles.append(str(role).lower())
+    possible_types = set(parent_roles) & set(all_egg_types)
+    egg_type = (random.sample(possible_types,1))[0]
     
     #mother_exists only being called to create the mother entry in this case.
     mother_exists(mother.name)
@@ -111,7 +119,7 @@ async def fuck(ctx):
         user_data[mother.name]['inventory']['egg'] = 1
         user_data[mother.name]['egg']['type'] = egg_type
     
-        await bot.say('{0} tripped and accidentally put their dick in {1}. Whoops! {0} got an egg!'.format(mother.name, dad))
+        await bot.say('{0} tripped and accidentally put their dick in {1}. Whoops! {0} got an egg!'.format(mother.name, dad.name))
 
 ###########
 # EGG specific commands
@@ -198,8 +206,8 @@ async def _stats2(ctx):
     mother = ctx.message.author
     if has_mon(mother.name):
         pet = user_data[mother.name]['mon']
-        picgen.generate_mon_badge(mother.name, pet)
-        await bot.send_file(ctx.message.channel, 'out.png')
+        picname = picgen.generate_mon_badge(mother.name, pet)
+        await bot.send_file(ctx.message.channel, picname)
     else:
         await bot.say("{0}, you don't have a pet. Hatch an egg!".format(mother.mention))
 
