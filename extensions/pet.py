@@ -51,11 +51,15 @@ class Pet():
         """Feed your pet if you have food."""
         mother = ctx.message.author
         if common.has_mon(mother.name):
+            pet = common.user_data[mother.name]['mon']
             if common.has_food(mother.name):
-                common.user_data[mother.name]['inventory']['food'] -= 1
-                pet = common.user_data[mother.name]['mon']
-                pet['hunger'] += 1
-                await self.bot.say("{0} has been fed!".format(pet['name']))
+                if pet['hunger'] < common.max_hunger:
+                    common.user_data[mother.name]['inventory']['food'] -= 1
+                    pet = common.user_data[mother.name]['mon']
+                    pet['hunger'] += 1
+                    await self.bot.say("{0} has been fed!".format(pet['name']))
+                else:
+                    await self.bot.say("{0} isn't hungry!".format(pet['name']))
             else:
                 await self.bot.say("{0}, you don't have any food!".format(mother.mention))
         else:
