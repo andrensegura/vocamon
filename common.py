@@ -73,21 +73,16 @@ def minus_hoh(pet, hoh):
 
 #every 1 minute, give everyone 10 stars.
 def update_stars():
-    threading.Timer(60.0,update_timer).start()
+    threading.Timer(60.0,update_stars).start()
 
     for player_name in user_data:
         user_data[player_name]['inventory']['stars'] += 10
         save_data()
 
-    try:
-        thread.exit()
-    except:
-        pass
-
 #every 1 hour(s), remove 1 hunger point from each mon.
 #if the mon is hungry, remove a happy point.
 def update_hunger():
-    threading.Timer(3600.0, update_hunger).start()
+    threading.Timer(10.0, update_hunger).start()
 
     for player_name in user_data:
         if has_mon(player_name):
@@ -121,6 +116,7 @@ def update_happy():
 
 #start all update threads
 def update_timer():
+    #may need threading.Lock()
     update_stars()
     update_hunger()
     update_happy()
