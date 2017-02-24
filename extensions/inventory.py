@@ -9,7 +9,7 @@ class Inventory():
         self.bot = bot
 
     @commands.group(pass_context=True)
-    async def inventory(self, ctx):
+    async def inv(self, ctx):
         """View/manipulate your inventory."""
         if ctx.invoked_subcommand is None:
             await self.bot.say("See '.help inventory'")
