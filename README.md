@@ -4,7 +4,6 @@ Vocamon is a Discord bot that provides users with a virtual pet.
 
 #To-Do:
 
-- [ ] use new method of keeping persistent data
 - [ ] move command groups into separate files
  - [ ] pet
  - [ ] egg
@@ -15,6 +14,7 @@ Vocamon is a Discord bot that provides users with a virtual pet.
 - [ ] keep track of time and lower hunger/happy as necessary
 - [ ] add inventory command(s)
 - [ ] create shop
+- [x] use new method of keeping persistent data
 - [x] print a ready message after restart
 - [x] move non-command basic functions into own module
 - [x] select mon based on mother/father server roles.
