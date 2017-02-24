@@ -64,6 +64,8 @@ async def fuck(ctx):
     for role in (mother.roles + dad.roles):
         parent_roles.append(str(role).lower())
     possible_types = set(parent_roles) & set(all_egg_types)
+    while len(possible_types) < 2:
+        possible_types.add(random.sample(all_egg_types,1)[0])
     egg_type = (random.sample(possible_types,1))[0]
     
     #mother_exists only being called to create the mother entry in this case.

@@ -4,7 +4,6 @@ Vocamon is a Discord bot that provides users with a virtual pet.
 
 #To-Do:
 
-- [ ] need to assign random egg type to parents that don't have a valid role when fuckin'
 - [ ] move command groups into separate files
  - [x] pet
  - [ ] egg
@@ -15,6 +14,8 @@ Vocamon is a Discord bot that provides users with a virtual pet.
 - [ ] add inventory command(s)
 - [ ] create shop
 - [ ] need to be able to raise happiness. pets are perpetually depressed.
+- [x] need to assign random egg type to parents that don't have a valid role when fuckin'
+- [x] need to fix "RuntimeError: can't start new thread"
 - [x] keep track of time and lower hunger/happy as necessary
 - [x] use new method of keeping persistent data
 - [x] print a ready message after restart
