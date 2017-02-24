@@ -4,7 +4,7 @@ import discord
 from discord.ext import commands
 import picgen
 import random
-from common import *
+import common
 
 
 
@@ -12,8 +12,13 @@ from common import *
 # READY UP
 ###############        
         
+###############
+# "common" module contains the var "user_data", which contains all the
+# valuable user data and is accessible to all modules
+###############
+
+
 all_egg_types = ['gumi','ia','luka','miku']
-user_data = {}
 
 description = '''Vocamon is a game you can play from within the Discord client.
 It provides users a virtual pet and allows for some interaction like battling/trading with other users.'''
@@ -28,8 +33,7 @@ async def on_ready():
     print('Logged in as')
     print(bot.user.name)
     print(bot.user.id)
-    user_data = load_data()
-    update_timer(user_data)
+    common.update_timer()
     await bot.send_message(bot.get_channel("264475422001987584"),
         "Vocamon started up.")
     print('------')
@@ -42,8 +46,9 @@ async def on_ready():
 
 @bot.command(pass_context=True)
 async def fuck(ctx):
-    #In python, three double quotes turn what is within them into 'documentation.' The bot uses
-    #the documentation as a description for the command. Pretty rad.
+    #In python, three double quotes turn what is within them into
+    #'documentation.' The bot uses the documentation as a
+    # description for the command. Pretty rad.
     """'Accidentaly' make an egg with someone.
     Mention another user to get started ( ͡° ͜ʖ ͡°)"""
 
@@ -63,15 +68,15 @@ async def fuck(ctx):
     egg_type = (random.sample(possible_types,1))[0]
     
     #mother_exists only being called to create the mother entry in this case.
-    mother_exists(mother.name, user_data)
+    common.mother_exists(mother.name)
     
-    if has_egg(mother.name, user_data):
+    if common.has_egg(mother.name):
         await bot.say('{0}, you already have an egg.'.format(mother.mention))
-        await bot.say('You already {0} eggs.'.format(user_data[mother.name]['inventory']['egg']))
+        await bot.say('You already {0} eggs.'.format(common.user_data[mother.name]['inventory']['egg']))
         return
     else: 
-        user_data[mother.name]['inventory']['egg'] = 1
-        user_data[mother.name]['egg']['type'] = egg_type
+        common.user_data[mother.name]['inventory']['egg'] = 1
+        common.user_data[mother.name]['egg']['type'] = egg_type
     
         await bot.say('{0} tripped and accidentally put their dick in {1}. Whoops! {0} got an egg!'.format(mother.name, dad.name))
 
@@ -88,8 +93,8 @@ async def egg(ctx):
         try:
             victim = ctx.message.mentions[0]
             perp = ctx.message.author
-            if has_egg(perp.name, user_data):
-                user_data[perp.name]['inventory']['egg'] = 0
+            if common.has_egg(perp.name):
+                common.user_data[perp.name]['inventory']['egg'] = 0
                 await bot.say('{0} threw their egg at {1}! Talk about hazukashi. LOL'.format(perp.mention, victim.mention))
                 await bot.send_file(ctx.message.channel, 'smug.png')
                 return
@@ -101,8 +106,8 @@ async def egg(ctx):
 async def _eat(ctx):
     """Eat your egg, you monster."""
     mother = ctx.message.author
-    if has_egg(mother.name, user_data):
-        user_data[mother.name]['inventory']['egg'] = 0
+    if common.has_egg(mother.name):
+        common.user_data[mother.name]['inventory']['egg'] = 0
         await bot.say("{0}, you've eaten your egg :(".format(mother.mention))
     else:
         await bot.say('{0}, you have no eggs. Go fuck somebody.'.format(mother.mention))
@@ -113,12 +118,12 @@ async def _hatch(ctx):
     Does not work if you already have an active pet."""
 
     mother = ctx.message.author
-    if has_egg(mother.name, user_data):
-        if not has_mon(mother.name, user_data):
-            pet = user_data[mother.name]['mon']
-            pet['type'] = pet['name'] = user_data[mother.name]['egg']['type']
-            user_data[mother.name]['inventory']['egg'] = 0
-            await bot.say('Congratulations! Your egg hatched into a beautiful baby {0}!'.format(user_data[mother.name]['mon']['type']))
+    if common.has_egg(mother.name):
+        if not common.has_mon(mother.name):
+            pet = common.user_data[mother.name]['mon']
+            pet['type'] = pet['name'] = common.user_data[mother.name]['egg']['type']
+            common.user_data[mother.name]['inventory']['egg'] = 0
+            await bot.say('Congratulations! Your egg hatched into a beautiful baby {0}!'.format(common.user_data[mother.name]['mon']['type']))
         else:
             await bot.say('{0}, you already have a pet.'.format(mother.mention))
     else:
@@ -138,8 +143,8 @@ async def _name(ctx, new_name: str):
     """Rename your pet.
     Can only be a single word... for now."""
     mother = ctx.message.author
-    if has_mon(mother.name, user_data):
-        user_data[mother.name]['mon']['name'] = new_name
+    if common.has_mon(mother.name):
+        common.user_data[mother.name]['mon']['name'] = new_name
         await bot.say("Congratulations, {0}, your mon has been named {1}!".format(mother.mention, new_name))
     else:
         await bot.say("{0}, you have no mon. You need to hatch an egg first.".format(mother.name))
@@ -148,8 +153,8 @@ async def _name(ctx, new_name: str):
 async def _stats(ctx):
     """Check your pets stats."""
     mother = ctx.message.author
-    if has_mon(mother.name, user_data):
-        pet = user_data[mother.name]['mon']
+    if common.has_mon(mother.name):
+        pet = common.user_data[mother.name]['mon']
         await bot.say("```Name:   {0}\nType:   {1}\nHunger: {2}\nHappy:  {3}```".format(pet['name'], pet['type'], pet['hunger'], pet['happy']))
     else:
         await bot.say("{0}, you don't have a pet. Hatch an egg!".format(mother.mention))
@@ -158,8 +163,8 @@ async def _stats(ctx):
 async def _stats2(ctx):
     """Check your pets stats."""
     mother = ctx.message.author
-    if has_mon(mother.name, user_data):
-        pet = user_data[mother.name]['mon']
+    if common.has_mon(mother.name):
+        pet = common.user_data[mother.name]['mon']
         picname = picgen.generate_mon_badge(mother.name, pet)
         await bot.send_file(ctx.message.channel, picname)
     else:
@@ -169,10 +174,10 @@ async def _stats2(ctx):
 async def _feed(ctx):
     """Feed your pet if you have food."""
     mother = ctx.message.author
-    if has_mon(mother.name, user_data):
-        if has_food(mother.name, user_data):
-            user_data[mother.name]['inventory']['food'] -= 1
-            pet = user_data[mother.name]['mon']
+    if common.has_mon(mother.name):
+        if common.has_food(mother.name):
+            common.user_data[mother.name]['inventory']['food'] -= 1
+            pet = common.user_data[mother.name]['mon']
             pet['hunger'] += 1
             await bot.say("{0} has been fed!".format(pet['name']))
         else:

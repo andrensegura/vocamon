@@ -3,6 +3,15 @@
 import os, sys
 import discord
 from discord.ext import commands
+import common
+
+#Note:
+# We can import common even though it is a directory above us
+# because it exists where the original process is started.
+#
+# In addition, if you use "from x import y", you get the variable
+# in it's state in x, not whatever the current value in memory is.
+#
 
 #ADMIN COMMANDS
 class Admin():
@@ -20,8 +29,9 @@ class Admin():
         """Restart the bot."""
         user = ctx.message.author
         if str(user) == "faroeson#2506":
+            print("Restart command received. Restarting...")
             await self.bot.say("Bot restarting...")
-            #save_data()
+            common.save_data()
 
             import sys
             python = sys.executable
@@ -42,7 +52,7 @@ class Admin():
         """Shut down the bot."""
         user = ctx.message.author
         if str(user) == "faroeson#2506":
-            #save_data()
+            common.save_data()
             await self.bot.say("Goodbye!\nVocamon has shut down.")
             from sys import exit
             sys.exit(0)
