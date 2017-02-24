@@ -120,6 +120,8 @@ async def _hatch(ctx):
     if common.has_egg(mother.name):
         if not common.has_mon(mother.name):
             pet = common.user_data[mother.name]['mon']
+            pet['hunger'] = 2
+            pet['happy'] = 5
             pet['type'] = pet['name'] = common.user_data[mother.name]['egg']['type']
             common.user_data[mother.name]['inventory']['egg'] = 0
             await bot.say('Congratulations! Your egg hatched into a beautiful baby {0}!'.format(common.user_data[mother.name]['mon']['type']))

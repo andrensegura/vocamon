@@ -1,6 +1,7 @@
 import threading
 import json
 
+max_hunger = max_happy = 10
 user_data_json_file = "vocamon.json"
 
 #READ JSON FILE TO LOAD SAVED DATA, ELSE, START NEW
@@ -26,14 +27,6 @@ user_data = load_data()
 
 ####################
 
-
-#every 3 mins, give everyone 10 stars.
-def update_timer():
-    threading.Timer(10.0,update_timer).start()
-
-    for player_name in user_data:
-        user_data[player_name]['inventory']['stars'] += 10
-        save_data()
 
 #takes a string as input and creates save data for it. 
 #if the user existed, it returns True, else, false.
@@ -66,4 +59,69 @@ def has_food(player):
         if user_data[player]['inventory']['food'] != 0:
             return True
     return False
+
+
+################TIMER STUFF
+
+#subtract a point of hunger or happiness (hoh)
+def minus_hoh(pet, hoh):
+    if (hoh != 'hunger') and (hoh != 'happy'):
+        print("invalid hoh value supplied: must be 'hunger' or 'happy'")
+    pet[hoh] -= 1
+    if pet[hoh] < 0:
+        pet[hoh] = 0
+
+#every 1 minute, give everyone 10 stars.
+def update_stars():
+    threading.Timer(60.0,update_timer).start()
+
+    for player_name in user_data:
+        user_data[player_name]['inventory']['stars'] += 10
+        save_data()
+
+    try:
+        thread.exit()
+    except:
+        pass
+
+#every 1 hour(s), remove 1 hunger point from each mon.
+#if the mon is hungry, remove a happy point.
+def update_hunger():
+    threading.Timer(3600.0, update_hunger).start()
+
+    for player_name in user_data:
+        if has_mon(player_name):
+            pet = user_data[player_name]['mon']
+            minus_hoh(pet, 'hunger')
+            if pet['hunger'] <= 0:
+                minus_hoh(pet, 'happy')
+                minus_hoh(pet, 'happy')
+            elif pet['hunger'] < 3:
+                minus_hoh(pet, 'happy')
+            save_data()
+
+    try:
+        thread.exit()
+    except:
+        pass
+
+#every 3 hour(s), remove 1 happy point from each mon.
+def update_happy():
+    threading.Timer(10800.0, update_hunger).start()
+
+    for player_name in user_data:
+        if has_mon(player_name):
+            pet = user_data[player_name]['mon']
+            minus_hoh(pet, 'happy')
+            save_data()
+    try:
+        thread.exit()
+    except:
+        pass
+
+#start all update threads
+def update_timer():
+    update_stars()
+    update_hunger()
+    update_happy()
 
