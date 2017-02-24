@@ -1,6 +1,7 @@
 #About
 
 Vocamon is a Discord bot that provides users with a virtual pet.
+A list of currently available commands are at the bottom.
 
 #To-Do:
 
@@ -26,3 +27,25 @@ Vocamon is a Discord bot that provides users with a virtual pet.
 - [x] create currency
 - [x] keep track of time and hand out currency
 - [ ] check yourself before you wreck yourself
+
+-------------------
+
+#Command List:
+
+* help
+* admin
+ * restart
+ * shutdown
+ * loadavg
+* pet
+ * name
+ * feed
+ * stats
+ * stats2
+* egg
+ * hatch
+ * eat
+ * throw
+* inv (inventory)
+ * show
+* fuck
