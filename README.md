@@ -4,6 +4,7 @@ Vocamon is a Discord bot that provides users with a virtual pet.
 
 #To-Do:
 
+- [ ] need to assign random egg type to parents that don't have a valid role when fuckin'
 - [ ] move command groups into separate files
  - [x] pet
  - [ ] egg
