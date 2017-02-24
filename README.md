@@ -4,7 +4,7 @@ Vocamon is a Discord bot that provides users with a virtual pet.
 
 #To-Do:
 
-- [ ] figure out a new way to save data so that modules can make changes
+- [ ] use new method of keeping persistent data
 - [ ] move command groups into separate files
  - [ ] pet
  - [ ] egg
