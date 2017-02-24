@@ -21,7 +21,7 @@ def save_data(player_data):
 
 #every 3 mins, give everyone 10 stars.
 def update_timer(player_data):
-    threading.Timer(180.0,update_timer, [player_data]).start()
+    threading.Timer(10.0,update_timer, [player_data]).start()
 
     for player_name in player_data:
         player_data[player_name]['inventory']['stars'] += 10

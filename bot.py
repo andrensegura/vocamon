@@ -23,7 +23,6 @@ bot = commands.Bot(command_prefix='.', description=description)
 extensions_dir = "extensions"
 startup_extensions = ["admin"]
 
-
 @bot.event
 async def on_ready():
     print('Logged in as')
