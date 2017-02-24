@@ -11,9 +11,9 @@ Vocamon is a Discord bot that provides users with a virtual pet.
 - [ ] stats picture needs to be prettified
 - [ ] move text output into own module.
 - [ ] make `.egg throw` a subcommand, instead of as an argument to `.egg`
-- [ ] add inventory command(s)
 - [ ] create shop
 - [ ] need to be able to raise happiness. pets are perpetually depressed.
+- [x] add inventory command(s)
 - [x] need to assign random egg type to parents that don't have a valid role when fuckin'
 - [x] need to fix "RuntimeError: can't start new thread"
 - [x] keep track of time and lower hunger/happy as necessary
