@@ -25,7 +25,7 @@ bot = commands.Bot(command_prefix='.', description=description)
 
 #Extensions to load
 extensions_dir = "extensions"
-startup_extensions = ["admin", "pet"]
+startup_extensions = ["admin", "pet", "inventory"]
 
 @bot.event
 async def on_ready():
