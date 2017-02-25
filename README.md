@@ -5,10 +5,6 @@ A list of currently available commands are at the bottom.
 
 #To-Do:
 
-- [ ] move command groups into separate files
- - [x] pet
- - [ ] egg
- - [x] admin
 - [ ] stats picture needs to be prettified
 - [ ] move text output into own module.
 - [ ] make `.egg throw` a subcommand, instead of as an argument to `.egg`
@@ -26,6 +22,10 @@ A list of currently available commands are at the bottom.
 - [x] stats pics should have unique names
 - [x] create currency
 - [x] keep track of time and hand out currency
+- [x] move command groups into separate files
+ - [x] pet
+ - [x] egg
+ - [x] admin
 - [ ] check yourself before you wreck yourself
 
 -------------------

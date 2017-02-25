@@ -25,7 +25,7 @@ bot = commands.Bot(command_prefix='.', description=description)
 
 #Extensions to load
 extensions_dir = "extensions"
-startup_extensions = ["admin", "pet", "inventory"]
+startup_extensions = ["admin", "pet", "inventory", "egg"]
 
 @bot.event
 async def on_ready():
@@ -81,59 +81,7 @@ async def fuck(ctx):
     
         await bot.say('{0} tripped and accidentally put their dick in {1}. Whoops! {0} got an egg!'.format(mother.name, dad.name))
 
-###########
-# EGG specific commands
-###########
-
-@bot.group(pass_context=True)
-async def egg(ctx):
-    """Perform various actions with/to your egg.
-        Mention someone to throw your egg at them."""
-    if ctx.invoked_subcommand is None:
-        #throw an egg if someone is mentioned
-        try:
-            victim = ctx.message.mentions[0]
-            perp = ctx.message.author
-            if common.has_egg(perp.name):
-                common.user_data[perp.name]['inventory']['egg'] = 0
-                await bot.say('{0} threw their egg at {1}! Talk about hazukashi. LOL'.format(perp.mention, victim.mention))
-                await bot.send_file(ctx.message.channel, 'smug.png')
-                return
-            await bot.say("Ghost eggs don't work. Go fuck somebody.")
-        except:
-            await bot.say("I couldn't understand your command. (see '.help egg')")
-        
-@egg.command(name='eat', pass_context=True)
-async def _eat(ctx):
-    """Eat your egg, you monster."""
-    mother = ctx.message.author
-    if common.has_egg(mother.name):
-        common.user_data[mother.name]['inventory']['egg'] = 0
-        await bot.say("{0}, you've eaten your egg :(".format(mother.mention))
-    else:
-        await bot.say('{0}, you have no eggs. Go fuck somebody.'.format(mother.mention))
-    
-@egg.command(name='hatch', pass_context=True)
-async def _hatch(ctx):
-    """Hatches an egg if you have one.
-    Does not work if you already have an active pet."""
-
-    mother = ctx.message.author
-    if common.has_egg(mother.name):
-        if not common.has_mon(mother.name):
-            pet = common.user_data[mother.name]['mon']
-            pet['hunger'] = 2
-            pet['happy'] = 5
-            pet['type'] = pet['name'] = common.user_data[mother.name]['egg']['type']
-            common.user_data[mother.name]['inventory']['egg'] = 0
-            await bot.say('Congratulations! Your egg hatched into a beautiful baby {0}!'.format(common.user_data[mother.name]['mon']['type']))
-        else:
-            await bot.say('{0}, you already have a pet.'.format(mother.mention))
-    else:
-        await bot.say('{0}, you have no eggs. Go fuck somebody.'.format(mother.mention))
-
-#commands to add: love, attack
-
+##############
 
 if __name__ == "__main__":
 
