@@ -65,5 +65,15 @@ class Pet():
         else:
             await self.bot.say("{0}, you don't have a pet. Hatch an egg!".format(mother.mention))
 
+    @pet.command(name='kill', pass_context=True)
+    async def _kill(self, ctx):
+        """Brutally slaughter your pet."""
+        mother = ctx.message.author
+        if common.has_mon(mother.name):
+            pet = common.user_data[mother.name]['mon']
+            name = pet['name']
+            pet['name'] = pet['type'] = pet['hunger'] = pet['happy'] = 0
+            await self.bot.say("Your {0} is dead. I hope you're happy :(".format(name))
+
 def setup(bot):
     bot.add_cog(Pet(bot))
