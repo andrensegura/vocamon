@@ -5,11 +5,12 @@ A list of currently available commands are at the bottom.
 
 #To-Do:
 
+- [ ] make the game actually fun
 - [ ] stats picture needs to be prettified
 - [ ] move text output into own module.
-- [ ] make `.egg throw` a subcommand, instead of as an argument to `.egg`
 - [ ] create shop
 - [ ] need to be able to raise happiness. pets are perpetually depressed.
+- [x] make `.egg throw` a subcommand, instead of as an argument to `.egg`
 - [x] add inventory command(s)
 - [x] need to assign random egg type to parents that don't have a valid role when fuckin'
 - [x] need to fix "RuntimeError: can't start new thread"
