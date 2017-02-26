@@ -68,9 +68,25 @@ def has_food(player):
 def minus_hoh(pet, hoh):
     if (hoh != 'hunger') and (hoh != 'happy'):
         print("invalid hoh value supplied: must be 'hunger' or 'happy'")
-    pet[hoh] -= 1
-    if pet[hoh] < 0:
+    elif pet[hoh] <= 0:
         pet[hoh] = 0
+    else:
+        pet[hoh] -= 1
+
+#add a point of hunger or happiness (hoh)
+def add_hoh(pet, hoh):
+    if (hoh != 'hunger') and (hoh != 'happy'):
+        print("invalid hoh value supplied: must be 'hunger' or 'happy'")
+    elif hoh == 'hunger':
+        if pet[hoh] >= MAX_HUNGER:
+            pet[hoh] = MAX_HUNGER
+        else:
+            pet[hoh] += 1
+    elif hoh == 'happy':
+        if pet[hoh] >= MAX_HAPPY:
+            pet[hoh] = MAX_HAPPY
+        else:
+            pet[hoh] += 1
 
 #every 1 minute, give everyone 10 stars.
 def update_stars():
