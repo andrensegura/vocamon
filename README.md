@@ -6,10 +6,11 @@ A list of currently available commands are at the bottom.
 #To-Do:
 
 - [ ] make the game actually fun
+- [ ] add cooldown timers for certain actions (love, hit, etc)
 - [ ] stats picture needs to be prettified
 - [ ] move text output into own module.
 - [ ] create shop
-- [ ] need to be able to raise happiness. pets are perpetually depressed.
+- [x] need to be able to raise happiness. pets are perpetually depressed.
 - [x] make `.egg throw` a subcommand, instead of as an argument to `.egg`
 - [x] add inventory command(s)
 - [x] need to assign random egg type to parents that don't have a valid role when fuckin'
