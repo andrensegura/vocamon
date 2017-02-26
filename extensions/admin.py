@@ -28,7 +28,7 @@ class Admin():
     async def _restart(self,ctx):
         """Restart the bot."""
         user = ctx.message.author
-        if str(user) == "faroeson#2506":
+        if str(user) in common.admins:
             print("Restart command received. Restarting...")
             await self.bot.say("Bot restarting...")
             common.save_data()
@@ -44,14 +44,14 @@ class Admin():
     async def _loadavg(self,ctx):
         """Check the server load."""
         user = ctx.message.author
-        if str(user) == "faroeson#2506":
+        if str(user) in common.admins:
             await self.bot.say("`{0}`".format(os.getloadavg()))
 
     @admin.command(name='shutdown', pass_context=True)
     async def _shutdown(self,ctx):
         """Shut down the bot."""
         user = ctx.message.author
-        if str(user) == "faroeson#2506":
+        if str(user) in common.admins:
             common.save_data()
             await self.bot.say("Goodbye!\nVocamon has shut down.")
             import sys
