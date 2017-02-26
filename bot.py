@@ -23,10 +23,6 @@ description = '''Vocamon is a game you can play from within the Discord client.
 It provides users a virtual pet and allows for some interaction like battling/trading with other users.'''
 bot = commands.Bot(command_prefix='.', description=description)
 
-#Extensions to load
-extensions_dir = "extensions"
-startup_extensions = ["admin", "pet", "inventory", "egg"]
-
 @bot.event
 async def on_ready():
     print('Logged in as')
@@ -89,9 +85,9 @@ async def fuck(ctx):
 if __name__ == "__main__":
 
     #LOAD EXTENSIONS
-    for extension in startup_extensions:
+    for extension in common.startup_extensions:
         try:
-            extension = extensions_dir + "." + extension
+            extension = common.extensions_dir + "." + extension
             bot.load_extension(extension)
         except Exception as e:
             exc = '{}: {}'.format(type(e).__name__, e)

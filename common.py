@@ -1,6 +1,12 @@
 import threading
 import json
 
+admins = ["faroeson#2506"]
+
+#Extensions to load
+extensions_dir = "extensions"
+startup_extensions = ["admin", "pet", "inventory", "egg", "store"]
+
 MAX_HUNGER = 10
 MAX_HAPPY = 10
 user_data_json_file = "vocamon.json"
@@ -44,7 +50,6 @@ def save_data():
 user_data = load_data() 
 
 ####################
-
 
 #takes a string as input and creates save data for it. 
 #if the user existed, it returns True, else, false.
