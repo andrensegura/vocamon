@@ -2,7 +2,7 @@ import threading
 import json
 
 MAX_HUNGER = 10
-MAX_HAPPPY = 10
+MAX_HAPPY = 10
 user_data_json_file = "vocamon.json"
 
 
@@ -11,7 +11,7 @@ mood_msg = [" is isn't afraid of death.",
             " wonders if a gun to the head will be swift and painless.",
             " appears to be reading a book about tying knots.",
             " is feeling a little suicidal today.",
-            " doesn't believe in love anymore."
+            " doesn't believe in love anymore.",
             " wishes it was born to a different owner.",
             " stares at you. 'Meh.'",
             " doesn't mind being around you.",
