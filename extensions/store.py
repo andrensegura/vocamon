@@ -18,9 +18,9 @@ class Store():
                 msg += "\n{0}: {1} in stock, {2}:star: each".format(item, store[item]['quantity'],store[item]['price'])
             await self.bot.say(msg)
 
-    @store.command(name='add', pass_context=True)
+    @store.command(name='adjust', pass_context=True)
     async def _add(self,ctx):
-        """Add items to the store. Admin only."""
+        """Add/change items in the store. Admin only."""
         user = ctx.message.author
         if str(user) in common.admins:
             data = ctx.message.content.split()
@@ -37,6 +37,22 @@ class Store():
             else:
                 store[item]['quantity'] = quantity
                 store[item]['price'] = price
+
+    @store.command(name='remove', pass_context=True)
+    async def _remove(self, ctx):
+        user = ctx.message.author
+        store = common.user_data['store']
+        if str(user) in common.admins:
+            data = ctx.message.content.split()
+            if len(data) < 3:
+                await self.bot.say("item name needed")
+                return
+            item = data[2]
+            try:
+                del store[item]
+            except Exception as e:
+                await self.bot.say(str(e))
+
 
 def setup(bot):
     bot.add_cog(Store(bot))
