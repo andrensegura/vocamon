@@ -18,7 +18,7 @@ class Inventory():
     async def _show(self, ctx):
         """Show items in inventory."""
         user = ctx.message.author
-        inv = common.user_data[user.name]['inventory']
+        inv = common.user_data['players'[user]['inventory']
 
         inv_message = "__**Inventory:**__"
         #the following code can be used to simply iterate through and print

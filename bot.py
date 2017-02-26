@@ -51,6 +51,9 @@ async def fuck(ctx):
     """'Accidentaly' make an egg with someone.
     Mention another user to get started ( ͡° ͜ʖ ͡°)"""
 
+    if ctx.message.channel.is_private():
+        await bot.say("This does not work in private channels!")
+
     try:
         dad = ctx.message.mentions[0]
     except:
@@ -69,17 +72,17 @@ async def fuck(ctx):
     egg_type = (random.sample(possible_types,1))[0]
     
     #mother_exists only being called to create the mother entry in this case.
-    common.mother_exists(mother.name)
-    
-    if common.has_egg(mother.name):
+    common.mother_exists(str(mother))
+    player = common.user_data['players'][str(mother)]
+
+    if common.has_egg(str(mother)):
         await bot.say('{0}, you already have an egg.'.format(mother.mention))
-        await bot.say('You already {0} eggs.'.format(common.user_data[mother.name]['inventory']['egg']))
         return
     else: 
-        common.user_data[mother.name]['inventory']['egg'] = 1
-        common.user_data[mother.name]['egg']['type'] = egg_type
+        player['inventory']['egg'] = 1
+        player['egg']['type'] = egg_type
     
-        await bot.say('{0} tripped and accidentally put their dick in {1}. Whoops! {0} got an egg!'.format(mother.name, dad.name))
+        await bot.say('{0} tripped and accidentally put their dick in {1}. Whoops! {0} got an egg!'.format(mother.mention, dad.mention))
 
 ##############
 

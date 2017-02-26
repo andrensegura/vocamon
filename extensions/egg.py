@@ -20,9 +20,9 @@ class Egg():
         try:
             victim = ctx.message.mentions[0]
             perp = ctx.message.author
-            if common.has_egg(perp.name):
-                common.user_data[perp.name]['inventory']['egg'] = 0
-                await self.bot.say('{0} threw their egg at {1}! Talk about hazukashi. LOL'.format(perp.mention, victim.mention))
+            if common.has_egg(str(perp)):
+                common.user_data['players'][str(perp)]['inventory']['egg'] = 0
+                await self.bot.say('{0} threw their egg at {1}! Talk about hazukashi. LOL'.format(str(perp), victim.mention))
                 await self.bot.send_file(ctx.message.channel, 'res/smug.png')
                 return
             await self.bot.say("Ghost eggs don't work. Go fuck somebody.")
@@ -33,8 +33,8 @@ class Egg():
     async def _eat(self, ctx):
         """Eat your egg, you monster."""
         mother = ctx.message.author
-        if common.has_egg(mother.name):
-            common.user_data[mother.name]['inventory']['egg'] = 0
+        if common.has_egg(str(mother)):
+            common.user_data['players'][str(mother)]['inventory']['egg'] = 0
             await self.bot.say("{0}, you've eaten your egg :(".format(mother.mention))
         else:
             await self.bot.say('{0}, you have no eggs. Go fuck somebody.'.format(mother.mention))
@@ -45,14 +45,15 @@ class Egg():
         Does not work if you already have an active pet."""
     
         mother = ctx.message.author
-        if common.has_egg(mother.name):
-            if not common.has_mon(mother.name):
-                pet = common.user_data[mother.name]['mon']
+        mother_data = common.user_data['players'][str(mother)]
+        if common.has_egg(str(mother)):
+            if not common.has_mon(str(mother)):
+                pet = mother_data['mon']
                 pet['hunger'] = 2
                 pet['happy'] = 5
-                pet['type'] = pet['name'] = common.user_data[mother.name]['egg']['type']
-                common.user_data[mother.name]['inventory']['egg'] = 0
-                await self.bot.say('Congratulations! Your egg hatched into a beautiful baby {0}!'.format(common.user_data[mother.name]['mon']['type']))
+                pet['type'] = pet['name'] = mother_data['egg']['type']
+                mother_data['inventory']['egg'] = 0
+                await self.bot.say('Congratulations! Your egg hatched into a beautiful baby {0}!'.format(mother_data['mon']['type']))
             else:
                 await self.bot.say('{0}, you already have a pet.'.format(mother.mention))
         else:
