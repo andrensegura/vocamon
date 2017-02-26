@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands
 import common
 import picgen
+import random
 
 
 class Pet():
@@ -76,7 +77,7 @@ class Pet():
         else:
             await self.bot.say("{}, you don't have a pet.".format(mother.mention))
 
-    @pet.command(name='kill', pass_context=True)
+    @pet.command(name='love', pass_context=True)
     async def _love(self,ctx):
         """Give your pet some love."""
         mother = ctx.message.author
@@ -89,9 +90,9 @@ class Pet():
 
 
             if common.add_hoh(pet, 'happy'):
-                await self.bot.say(pet['name'] + common.love_msg[pet['happy'])
+                await self.bot.say(random.sample(love_msg,1)[0])
             else:
-                await self.bot.say(pet['name'] + common.love_msg['happy'])
+                await self.bot.say(pet['name'] + " already knows how much you love them.<3")
             
     @pet.command(name='mood', pass_context=True)
     async def _mood(self,ctx):
