@@ -54,7 +54,7 @@ class Admin():
         if str(user) == "faroeson#2506":
             common.save_data()
             await self.bot.say("Goodbye!\nVocamon has shut down.")
-            from sys import exit
+            import sys
             sys.exit(0)
 
 def setup(bot):
