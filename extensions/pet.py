@@ -17,7 +17,7 @@ class Pet():
     @pet.command(name='name', pass_context=True)
     async def _name(self, ctx, new_name: str):
         """Rename your pet.
-        Can only be a single word... for now."""
+        Can only be a single word."""
         mother = ctx.message.author
         if common.has_mon(str(mother)):
             common.user_data['players'][str(mother)]['mon']['name'] = new_name
@@ -54,9 +54,8 @@ class Pet():
             mother_data = common.user_data['players'][str(mother)]
             pet = mother_data['mon']
             if common.has_food(str(mother)):
-                if pet['hunger'] < common.max_hunger:
+                if common.add_hoh(pet, 'hunger'):
                     mother_data['inventory']['food'] -= 1
-                    pet['hunger'] += 1
                     await self.bot.say("{0} has been fed!".format(pet['name']))
                 else:
                     await self.bot.say("{0} isn't hungry!".format(pet['name']))
@@ -74,6 +73,38 @@ class Pet():
             name = pet['name']
             pet['name'] = pet['type'] = pet['hunger'] = pet['happy'] = 0
             await self.bot.say("Your {0} is dead. I hope you're happy :(".format(name))
+        else:
+            await self.bot.say("{}, you don't have a pet.".format(mother.mention))
+
+    @pet.command(name='kill', pass_context=True)
+    async def _love(self,ctx):
+        """Give your pet some love."""
+        mother = ctx.message.author
+
+        if common.has_mon(str(mother)):
+            pet = common.user_data['players'][str(mother)]['mon']
+
+            love_msg = ["*{0} glances at {1}, giving the desperate {2} just enough attention to feel something like love.*\n{1} gained a little happiness.".format(mother.mention, pet['name'], pet['type']),
+                        "*{0} pats {1}, catching it off guard. It's not like {1} wanted to be patted, anyway...*\n{1} gained a little happiness.".format(mother.mention, pet['name'])]
+
+
+            if common.add_hoh(pet, 'happy'):
+                await self.bot.say(pet['name'] + common.love_msg[pet['happy'])
+            else:
+                await self.bot.say(pet['name'] + common.love_msg['happy'])
+            
+    @pet.command(name='mood', pass_context=True)
+    async def _mood(self,ctx):
+        """Check your pet's mood."""
+        mother = ctx.message.author
+
+        if common.has_mon(str(mother)):
+            pet = common.user_data['players'][str(mother)]['mon']
+            await self.bot.say("{0}: {1}{2}".format(mother.mention,
+                                                    pet['name'],
+                                                    common.mood_msg[pet['happy']]))
+
+
 
 def setup(bot):
     bot.add_cog(Pet(bot))

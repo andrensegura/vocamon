@@ -1,8 +1,25 @@
 import threading
 import json
 
-max_hunger = max_happy = 10
+MAX_HUNGER = 10
+MAX_HAPPPY = 10
 user_data_json_file = "vocamon.json"
+
+
+#mood status in order from worst [0] to best [10] messages
+mood_msg = [" is isn't afraid of death.",
+            " wonders if a gun to the head will be swift and painless.",
+            " appears to be reading a book about tying knots.",
+            " is feeling a little suicidal today.",
+            " doesn't believe in love anymore."
+            " wishes it was born to a different owner.",
+            " stares at you. 'Meh.'",
+            " doesn't mind being around you.",
+            " is fairly content.",
+            " is beaming with happiness!"
+            " calls its owner senpai."]
+
+
 
 #READ JSON FILE TO LOAD SAVED DATA, ELSE, START NEW
 def load_data():
@@ -22,6 +39,7 @@ def save_data():
 
 
 ##################### dont fucking touch this line.
+##################### it's gotta be after load_data but before anything else.
 
 user_data = load_data() 
 
@@ -74,19 +92,27 @@ def minus_hoh(pet, hoh):
         pet[hoh] -= 1
 
 #add a point of hunger or happiness (hoh)
+#returns True if successful, False if not.
+#-The only reason hunger/happiness are split in this one and not in minus_hoh
+#-is because MAX_HUNGER/MAX_HAPPY may be different values, but 0 will always
+#-be the lowest.
 def add_hoh(pet, hoh):
     if (hoh != 'hunger') and (hoh != 'happy'):
         print("invalid hoh value supplied: must be 'hunger' or 'happy'")
     elif hoh == 'hunger':
         if pet[hoh] >= MAX_HUNGER:
             pet[hoh] = MAX_HUNGER
+            return False
         else:
             pet[hoh] += 1
+            return True
     elif hoh == 'happy':
         if pet[hoh] >= MAX_HAPPY:
             pet[hoh] = MAX_HAPPY
+            return False
         else:
             pet[hoh] += 1
+            return True
 
 #every 1 minute, give everyone 10 stars.
 def update_stars():
