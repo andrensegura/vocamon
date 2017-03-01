@@ -58,7 +58,7 @@ def mother_exists(player):
         user_data['players'][player] = {}
         player_info = user_data['players'][player]
         player_info['egg'] = {'type': 0}
-        player_info['mon'] = {'name': 0, 'type': 0, 'hunger': 0, 'happy': 0}
+        player_info['mon'] = {'name': 0, 'type': 0, 'hunger': 0, 'happy': 0, 'score': 0}
         player_info['inventory'] = {'food': 5, 'egg': 0, 'stars': 0}
         return False
     return True
