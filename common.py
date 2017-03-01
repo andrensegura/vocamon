@@ -93,8 +93,10 @@ def minus_hoh(pet, hoh):
         print("invalid hoh value supplied: must be 'hunger' or 'happy'")
     elif pet[hoh] <= 0:
         pet[hoh] = 0
+        return False
     else:
         pet[hoh] -= 1
+        return True
 
 #add a point of hunger or happiness (hoh)
 #returns True if successful, False if not.
