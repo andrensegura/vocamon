@@ -37,8 +37,14 @@ async def on_ready():
 # COMMANDS
 ################
 
-#################
+#This file contains the commands that the player itself can make.
+#Current commands include:
+# - fuck
+#
 
+#
+# fuck another member on the server and receive an egg.
+#
 @bot.command(pass_context=True)
 async def fuck(ctx):
     #In python, three double quotes turn what is within them into
@@ -47,7 +53,7 @@ async def fuck(ctx):
     """'Accidentaly' make an egg with someone.
     Mention another user to get started ( ͡° ͜ʖ ͡°)"""
 
-    if ctx.message.channel.is_private():
+    if ctx.message.channel.is_private:
         await bot.say("This does not work in private channels!")
 
     try:
@@ -79,6 +85,35 @@ async def fuck(ctx):
         player['egg']['type'] = egg_type
     
         await bot.say('{0} tripped and accidentally put their dick in {1}. Whoops! {0} got an egg!'.format(mother.mention, dad.mention))
+
+#
+# hit another user's mon and lower it's happiness.
+#
+@bot.command(pass_context=True)
+async def hit(ctx):
+    """Hit another player's mon. This makes the mon sad :("""
+    if ctx.message.channel.is_private:
+        await bot.say("This does not work in private channels!")
+
+    try:
+        victim = ctx.message.mentions[0]
+    except:
+        await bot.say("You need to mention another player!")
+        return
+
+    player = ctx.message.author
+
+    if not common.has_mon(str(victim)):
+        await bot.say("{0}, {1} has no mon to hit.".format(player.mention, victim.mention))
+        return
+
+    pet = common.user_data['players'][str(victim)]['mon']
+
+    if common.minus_hoh(pet, 'happy'):
+        await bot.say("{0} viciously stikes {1}'s {2}! How mean!".format(player.mention, victim.mention, pet['name']))
+    else:
+        await bot.say("{0} looks back at {1} after being struck. The idea that it could be in any more pain amuses it, but it does not laugh.".format(pet['name'], player.mention))
+
 
 ##############
 
